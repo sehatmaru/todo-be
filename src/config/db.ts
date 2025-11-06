@@ -1,9 +1,10 @@
 import { Pool } from "pg";
+import "./env";
 
 export const db = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "todo_app",
-    password: "Adapund!2023",
-    port: 5432,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
 });
