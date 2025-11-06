@@ -8,4 +8,4 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     const message = err.message || "Internal Server Error";
 
     res.status(500).json(errorResponse<any[]>(500, err.message));
-}
+};

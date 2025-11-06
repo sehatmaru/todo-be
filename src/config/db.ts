@@ -6,4 +6,4 @@ export const db = new Pool({
     database: "todo_app",
     password: "Adapund!2023",
     port: 5432,
-})
+});

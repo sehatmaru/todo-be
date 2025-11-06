@@ -7,25 +7,25 @@ import { CreateUser, LoginUser } from "../model/auth/auth.model";
 
 export const authController = {
     async register(req: Request<CreateUser>, res: Response) {
-    try {
-        const { username, password } = req.body;
-        const user = await authService.register(username.toLowerCase(), password)
-        
-        return res.status(200).json(successResponse(user));
-    } catch (error: any) {
-        return res.status(500).json(errorResponse(500, error.message));
-    }
-}
-, async login(req: Request<LoginUser>, res: Response) {
-    try {
-        const { username, password } = req.body;
-        console.log(username, password);
-        const token = await authService.login(username.toLowerCase(), password)
+        try {
+            const { username, password } = req.body;
+            const user = await authService.register(username.toLowerCase(), password);
 
-        return res.status(201).json(successResponse<string>(token));
-    } catch (error: any) {
-        console.log(error);
-        return res.status(500).json(errorResponse<string>(500, error.message));
-    }
-},
-}
+            return res.status(200).json(successResponse(user));
+        } catch (error: any) {
+            return res.status(500).json(errorResponse(500, error.message));
+        }
+    },
+    async login(req: Request<LoginUser>, res: Response) {
+        try {
+            const { username, password } = req.body;
+            console.log(username, password);
+            const token = await authService.login(username.toLowerCase(), password);
+
+            return res.status(201).json(successResponse<string>(token));
+        } catch (error: any) {
+            console.log(error);
+            return res.status(500).json(errorResponse<string>(500, error.message));
+        }
+    },
+};
