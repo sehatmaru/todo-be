@@ -17,7 +17,13 @@ app.use(cors());
 app.use(express.json());
 app.use(requestContextMiddleware);
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, {
+        customCss: ".swagger-ui .topbar { display: none }",
+    })
+);
 
 app.use("/api/v1/todos", authMiddleware, todoRoute);
 app.use("/api/v1/users", userRoute);
