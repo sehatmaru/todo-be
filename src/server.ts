@@ -17,13 +17,39 @@ app.use(cors());
 app.use(express.json());
 app.use(requestContextMiddleware);
 
-app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec, {
-        customCss: ".swagger-ui .topbar { display: none }",
-    })
-);
+app.get("/api-docs", (req, res) => {
+    const swaggerJsonUrl = "/swagger.json";
+
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>API Docs</title>
+                <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
+                <style>.swagger-ui .topbar { display: none }</style>
+            </head>
+            <body>
+                <div id="swagger-ui"></div>
+                <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+                <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+                <script>
+                    window.onload = () => {
+                        SwaggerUIBundle({
+                            url: '${swaggerJsonUrl}',
+                            dom_id: '#swagger-ui'
+                        });
+                    };
+                </script>
+            </body>
+        </html>
+    `);
+});
+
+// Serve your Swagger JSON definition
+app.get("/swagger.json", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.send(swaggerSpec);
+});
 
 app.use("/api/v1/todos", authMiddleware, todoRoute);
 app.use("/api/v1/users", userRoute);
